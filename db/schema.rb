@@ -10,14 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_04_223042) do
+ActiveRecord::Schema.define(version: 2020_11_10_154336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "availabilities", force: :cascade do |t|
+    t.string "monthNorthern"
+    t.string "monthSouthern"
+    t.string "time"
+    t.boolean "isAllDay"
+    t.boolean "isAllYear"
+    t.string "location"
+    t.string "rarity"
+    t.string "animal_type"
+    t.bigint "animal_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["animal_type", "animal_id"], name: "index_availabilities_on_animal_type_and_animal_id"
+  end
+
   create_table "bugs", force: :cascade do |t|
     t.string "name"
-    t.string "availability"
     t.string "price"
     t.string "price_flick"
     t.string "catch_phrase"
@@ -30,7 +44,6 @@ ActiveRecord::Schema.define(version: 2020_11_04_223042) do
 
   create_table "fish", force: :cascade do |t|
     t.string "name"
-    t.string "availability"
     t.string "price"
     t.string "price_cj"
     t.string "catch_phrase"
