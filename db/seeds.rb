@@ -15,6 +15,7 @@ Villager.destroy_all
 UserBug.destroy_all
 UserFish.destroy_all
 UserVillager.destroy_all
+Availability.destroy_all
 
 
 villagers = RestClient.get 'http://acnhapi.com/v1/villagers/'
@@ -39,30 +40,52 @@ end
 bugs = RestClient.get 'http://acnhapi.com/v1/bugs/'
 bug_array = JSON.parse(bugs)
 bug_array.each do |bug|
-    Bug.create(
+    available = bug[1]["availability"]
+    
+    newBug = Bug.create(
         name: bug[1]["name"]['name-USen'],
-        availability: bug[1]["availability"],
         price: bug[1]["price"],
         price_flick: bug[1]["price-flick"],
         catch_phrase: bug[1]["catch-phrase"],
         description: bug[1]["museum-phrase"],
         image_cute: bug[1]["icon_uri"],
         image: bug[1]["image_uri"]
+        )
+    Availability.create!(
+        animal: newBug, 
+        monthNorthern: available["month-northern"],
+        monthSouthern: available["month-southern"],
+        time: available["time"],
+        isAllDay: available["isAllDay"],
+        isAllYear: available["isAllYear"],
+        location: available["location"],
+        rarity: available["rarity"]
     )
 end 
 
 fish = RestClient.get 'http://acnhapi.com/v1/fish/'
 fish_array = JSON.parse(fish)
 fish_array.each do |fish|
-    Fish.create(
+    available = fish[1]["availability"]
+
+    newFish = Fish.create(
         name: fish[1]["name"]['name-USen'],
-        availability: fish[1]["availability"],
         price: fish[1]["price"],
         price_cj: fish[1]["price-cj"],
         catch_phrase: fish[1]["catch-phrase"],
         description: fish[1]["museum-phrase"],
         image_cute: fish[1]["icon_uri"],
         image: fish[1]["image_uri"]
+    )
+    Availability.create!(
+        animal: newFish, 
+        monthNorthern: available["month-northern"],
+        monthSouthern: available["month-southern"],
+        time: available["time"],
+        isAllDay: available["isAllDay"],
+        isAllYear: available["isAllYear"],
+        location: available["location"],
+        rarity: available["rarity"]
     )
 end 
 
