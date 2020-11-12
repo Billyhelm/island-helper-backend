@@ -5,15 +5,20 @@ class UserVillagersController < ApplicationController
         render json: user_villagers
     end
 
+    def show
+        user_villager = UserVillager.find(params[:id])
+        render json: user_villager
+    end
+
     def create
         new_user_villager = UserVillager.create(post_params)
         user = User.find(new_user_villager.user_id)
-        # byebug
-        render json: user, include: {fishes: {include: {availability: {}}}, bugs: {include: {availability: {}}}, user_villagers: {include: {villager: {}}} }
+        render json: user, include: {fishes: {include: {availability: {}}}, bugs: {include: {availability: {}}}, villagers: {} }
     end
 
-    def delete
-
+    def destroy
+        user_villager = UserVillager.find(params[:id])
+        user_villager.destroy
     end
 
     private
