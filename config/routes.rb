@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :create]
   resources :user_villagers
   resources :user_bugs
+  resources :user_fishes
   get('/users/:name', to: 'users#show_alt')
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
