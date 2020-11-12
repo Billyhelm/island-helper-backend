@@ -1,4 +1,5 @@
 class UserFishesController < ApplicationController
+    
     def index
         user_fishes = UserFish.all
         render json: user_fishes
